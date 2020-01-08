@@ -37,11 +37,11 @@
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field
-    $bw = $_REQUEST['bw'];
-    $inches = $_REQUEST['inches'];
-    $yrs = $_REQUEST['yrs'];
-    $activity = $_REQUEST['activity'];
-    $sex = $_REQUEST['sex'];
+    $bw = test_input($_REQUEST['bw']);
+    $inches = test_input($_REQUEST['inches']);
+    $yrs = test_input($_REQUEST['yrs']);
+    $activity = test_input($_REQUEST['activity']);
+    $sex = test_input($_REQUEST['sex']);
 
     if ($sex == "Male") {
      malecal($bw, $inches, $yrs, $activity);
@@ -58,7 +58,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </body>
 </html>
 
+
+
 <?php
+
+function test_input($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+
 function malecal($bw, $inches, $yrs, $activity) {
   $bw2 = 6.3 * $bw;
   $inches2 = 12.9 * $inches;
