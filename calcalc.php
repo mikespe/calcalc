@@ -13,7 +13,7 @@ function malecal($bw, $inches, $yrs, $activity) {
   $yrs2 = 6.8 * $yrs;
   $malecal = 66 + $bw2 + $inches2 - $yrs2;
   $malecal2 = round($malecal * $activity);
-  echo "Calorie to Maintain Weight:" . $malecal2;;
+  echo "Calories to Maintain Weight:" . $malecal2;;
 }
 
 function femalecal($bw, $inches, $yrs, $activity) {
@@ -22,7 +22,7 @@ function femalecal($bw, $inches, $yrs, $activity) {
   $yrs2 = 4.7 * $yrs;
   $femalecal = 655 + $bw2 + $inches2 - $yrs2;
   $femalecal2 = round($femalecal * $activity);
-  echo "Calorie to Maintain Weight:" . $femalecal2;;
+  echo "Calories to Maintain Weight:" . $femalecal2;;
 }
 ?>
 
@@ -87,6 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
       <fieldset>
         <legend>Calorie Calculator</legend>
+        <p class="error" style="font-size:10px;">* required field</p>
   <div class="col-xs-12 p-2">Body Weight (lbs): <input type="number" name="bw"><span class="error">* <?php echo $bwerror; ?></span></div>
   <div class="col-xs-12 p-2">Height (in) : <input type="number" name="inches"><span class="error">* <?php echo $incherror; ?></span></div>
   <div class="col-xs-12 p-2">Age (yrs) : <input type="number" name="yrs"><span class="error">* <?php echo $yrserror; ?></span></div>
