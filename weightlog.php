@@ -34,7 +34,7 @@ if ($conn->query($sqlcrdb) === TRUE) {
 
 $sqlcrtb = "CREATE TABLE weight (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-weight VARCHAR(30) NOT NULL,
+weight INT(3) NOT NULL,
 reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 
@@ -52,10 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     date_default_timezone_set("America/New_York");
     $bw2 = test_input($_REQUEST['bw']);
-    $today = date("Y-m-d");
-    $dateweight = "$today" . " $bw2" . "lbs";
     // insert staement if the bodyweight is present
-    $sqlinsert = "INSERT INTO weight (weight) VALUES (`$bw2`)";
+    $sqlinsert = "INSERT INTO weight (weight) VALUES ($bw2)";
     if ($conn->query($sqlinsert) === TRUE) {
     echo "record created successfully";
     } else {
@@ -92,7 +90,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <hr>
 <?php
 // Create connection
-$conn = new mysqli($servername, $username, $password);
+$servername = "localhost";
+$username = "root";
+$password = "root";
+$dbname = "weightlog";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
 
 // Check connection
 if ($conn->connect_error) {
@@ -102,11 +105,13 @@ if ($conn->connect_error) {
 }
 
 $sqlselect = "SELECT * FROM weight";
+
 $result = $conn->query($sqlselect);
+
 if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
-        echo "weight: " . $row['weight'];
+        echo "date: " . $row["reg_date"] . " - Weight: " . $row["weight"] . '<br>';
     }
 } else {
     echo "0 results";
