@@ -21,14 +21,14 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
-  echo "connected successfully";
+//  echo "connected successfully";
 }
 
 $sqlcrdb = "CREATE DATABASE weightlog";
 if ($conn->query($sqlcrdb) === TRUE) {
     echo "Database created successfully";
 } else {
-    echo "Error creating database: " . $conn->error;
+ //   echo "Error creating database: " . $conn->error;
 }
 
 
@@ -39,9 +39,9 @@ reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 
 if ($conn->query($sqlcrtb) === TRUE) {
-    echo "Table weight created successfully";
+ //   echo "Table weight created successfully";
 } else {
-    echo "Error creating table: " . $conn->error;
+ //   echo "Error creating table: " . $conn->error;
 }
 
 
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // insert staement if the bodyweight is present
     $sqlinsert = "INSERT INTO weight (weight) VALUES ($bw2)";
     if ($conn->query($sqlinsert) === TRUE) {
-    echo "record created successfully";
+//    echo "record created successfully";
     } else {
     echo "Error: " . $sqlinsert . "<br>" . $conn->error;
     }
@@ -101,7 +101,7 @@ $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
-  echo "Connected successfully";
+//  echo "Connected successfully";
 }
 
 $sqlselect = "SELECT * FROM weight";
