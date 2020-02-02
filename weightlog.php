@@ -110,9 +110,20 @@ $result = $conn->query($sqlselect);
 
 if ($result->num_rows > 0) {
     // output data of each row
-    $entrynum = 0;
+    $entrynum = 1;
     while($row = $result->fetch_assoc()) {
-    echo "<p id='$entrynum' class='entry'>" . "date: " . $row["reg_date"] . " - Weight: " . $row["weight"] . "</p>";
+    echo "<div id='$entrynum' style='display:flex;flex-wrap:wrap;'>" . 
+    "<p class='entry'>" . 
+    "date: " . 
+    $row["reg_date"] . 
+    " - Weight: " . 
+    $row["weight"] . 
+    "</p>" . 
+    '<button style="padding-left: 5px;
+    padding-bottom: 16px;"" type="button" class="close" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button>' . 
+"</div>";
     $entrynum++;
     }
 } else {
@@ -127,5 +138,12 @@ $conn->close();
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+  <script>
+$('.close').click(function() {
+  let parent = $( this ).parent();
+  console.log(parent[0].id);
+});
+</script>
 </body>
 </html>
