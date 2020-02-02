@@ -62,6 +62,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   }
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
@@ -75,19 +77,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+  <div class="container">
   <div class="row text-center m-4">
-    <div class="col-xs-10">
+    <div class="col-xs-10 text-center">
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
   <fieldset>
     <legend>Body Weight (lbs):</legend>
   <div class="col-xs-12 p-2">Body Weight (lbs): 
     <input type="number" name="bw">
+      <input type="submit" value="Submit">
     <span class="error">* <?php echo $bwerror2; ?></span>
   </div>
-  <input type="submit" value="Submit">
 </fieldset>
 </form>
 <hr>
+<div class="resultscontainer">
 <?php
 // Create connection
 $servername = "localhost";
@@ -110,9 +114,9 @@ $result = $conn->query($sqlselect);
 
 if ($result->num_rows > 0) {
     // output data of each row
-    $entrynum = 1;
     while($row = $result->fetch_assoc()) {
-    echo "<div id='$entrynum' style='display:flex;flex-wrap:wrap;'>" . 
+    $realid = $row["id"];
+    echo "<div class='results' id='$realid' style='display:flex;flex-wrap:wrap;'>" . 
     "<p class='entry'>" . 
     "date: " . 
     $row["reg_date"] . 
@@ -124,7 +128,6 @@ if ($result->num_rows > 0) {
   <span aria-hidden="true">&times;</span>
 </button>' . 
 "</div>";
-    $entrynum++;
     }
 } else {
     echo "0 results";
@@ -132,6 +135,8 @@ if ($result->num_rows > 0) {
 $conn->close();
 
 ?>  
+</div>
+</div>
 </div>
 </div>
 
@@ -142,7 +147,20 @@ $conn->close();
   <script>
 $('.close').click(function() {
   let parent = $( this ).parent();
-  console.log(parent[0].id);
+  let id = parent[0].id;
+  
+  xmlhttp = new XMLHttpRequest();
+
+  /*xmlhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      $('.resultscontainer')[0].innerHTML = this.responseText;
+    } else {
+      console.log('ready state is not ready for some reason??');
+    }}
+*/
+  xmlhttp.open("POST","delete-weight.php?q="+id,true);
+  xmlhttp.send();
+  parent[0].remove();
 });
 </script>
 </body>
