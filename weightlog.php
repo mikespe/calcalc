@@ -110,8 +110,10 @@ $result = $conn->query($sqlselect);
 
 if ($result->num_rows > 0) {
     // output data of each row
+    $entrynum = 0;
     while($row = $result->fetch_assoc()) {
-        echo "date: " . $row["reg_date"] . " - Weight: " . $row["weight"] . '<br>';
+    echo "<p id='$entrynum' class='entry'>" . "date: " . $row["reg_date"] . " - Weight: " . $row["weight"] . "</p>";
+    $entrynum++;
     }
 } else {
     echo "0 results";
