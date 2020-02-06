@@ -50,7 +50,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   if (empty($_REQUEST['bw'])) {
     $bwerror2 = "bodyweight in lbs is required!";
   } else {
-    date_default_timezone_set("America/New_York");
     $bw2 = test_input($_REQUEST['bw']);
     // insert staement if the bodyweight is present
     $sqlinsert = "INSERT INTO weight (weight) VALUES ($bw2)";
