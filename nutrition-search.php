@@ -25,7 +25,7 @@
   <fieldset>
     <legend>Nutrition Search:</legend>
   <div class="col-xs-12 p-2">Enter a Food: 
-    <input class="maininput" type="search" name="foodsearch" onsubmit="getinput(this.value)">
+    <input class="maininput" type="search" name="foodsearch">
       <input type="submit" value="Submit">
     <span class="error">* <?php echo $fooderror; ?></span>
   </div>
@@ -45,11 +45,44 @@
   var querystr = 'https://api.nal.usda.gov/fdc/v1/search?api_key=ffm9P5caEuLE7aUT7l2OttpQ68hCEId9rS6TT08H&generalSearchInput='+str;
   //console.log('i was submitted')
   $.get(querystr, function(results) {
-  console.log(results.foods[0]['fdcId']);
-  $('.results').append('<p>' + results.foods[0]['fdcId'] + '</p>');
+    $('.results').empty();
+  for (i=0; i < 10; i++) {
+    let fdcid = results.foods[i].fdcId;
+    $('.results').append('<p id='+'"'+fdcid+'"'+ ' class=fooditem' +'>' + results.foods[i].allHighlightFields + '</p>');
+  }
+
   })
 });
 
+$('.results').on('click', '.fooditem' , function() {
+  //console.log(this.id);
+  let selectedid = this.id;
+  var detailsquery = 'https://api.nal.usda.gov/fdc/v1/'+selectedid+'?api_key=ffm9P5caEuLE7aUT7l2OttpQ68hCEId9rS6TT08H';
+
+  $.get(detailsquery, function(results) {
+  console.log(results);
+  $('.results').empty();
+  let servingsize = results.servingSize;
+  let servingunit = results.servingSizeUnit
+  let servingdescrip = results.householdServingFullText;
+  for(i = 0; i < results.foodNutrients.length; i++) {
+    if(results.foodNutrients[i].nutrient.name == 'Protein') {
+      $('.results').append(
+    '<p>Protein =' + results.foodNutrients[i].amount + 'grams</p>')
+    } else if (results.foodNutrients[i].nutrient.name == 'Total lipid (fat)') {
+      $('.results').append(
+    '<p>Fat =' + results.foodNutrients[i].amount + 'grams</p>')
+    } else if (results.foodNutrients[i].nutrient.name == 'Carbohydrate, by difference') {
+    $('.results').append(
+    '<p>Carbs =' + results.foodNutrients[i].amount + 'grams</p>')
+    }
+  }
+  //console.log(results.householdservingFullText);
+    $('.results').append(
+    '<p>Serving Info =' + servingsize + servingunit + '<br>'+ servingdescrip +' </p>')
+  })
+})
+  
 </script>
 
 </body>
