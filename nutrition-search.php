@@ -2,6 +2,12 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <style>
+    .fooditem:hover {
+      background-color:black;
+      color:white;
+    }
+  </style>
   <script
   src="https://code.jquery.com/jquery-3.4.1.min.js"
   integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
@@ -76,19 +82,19 @@ try {
     'serving description:'+
     servingdescrip +
     ' </p>'+ 
-    '<p> Protein:' + 
+    '<p> Protein: ' + 
       results.labelNutrients.protein.value + 
       '</p>' + 
-      '<p> Fat:' + 
+      '<p> Fat: ' + 
       results.labelNutrients.fat.value + 
       '</p>' + 
-      '<p> Carbs:' + 
+      '<p> Carbs: ' + 
       results.labelNutrients.carbohydrates.value + 
       '</p>'
     )
   }
   catch(err) {
-    $('.results').append(err.message);
+    $('.results').append(err.message + '<br>' + '<br>' + 'This means this entry isnt good/reliable. please choose another entry! thanks');
   }
   })
 
