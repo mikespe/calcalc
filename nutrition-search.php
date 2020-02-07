@@ -63,24 +63,35 @@ $('.results').on('click', '.fooditem' , function() {
   console.log(results);
   $('.results').empty();
   let servingsize = results.servingSize;
-  let servingunit = results.servingSizeUnit
+  let servingunit = results.servingSizeUnit;
   let servingdescrip = results.householdServingFullText;
-  for(i = 0; i < results.foodNutrients.length; i++) {
-    if(results.foodNutrients[i].nutrient.name == 'Protein') {
-      $('.results').append(
-    '<p>Protein =' + results.foodNutrients[i].amount + 'grams</p>')
-    } else if (results.foodNutrients[i].nutrient.name == 'Total lipid (fat)') {
-      $('.results').append(
-    '<p>Fat =' + results.foodNutrients[i].amount + 'grams</p>')
-    } else if (results.foodNutrients[i].nutrient.name == 'Carbohydrate, by difference') {
+try {
     $('.results').append(
-    '<p>Carbs =' + results.foodNutrients[i].amount + 'grams</p>')
-    }
+      '<p> Calories:' + 
+      results.labelNutrients.calories.value + 
+      '----' + 
+      'Serving = ' + 
+    servingsize + servingunit +
+    '<br>' +
+    'serving description:'+
+    servingdescrip +
+    ' </p>'+ 
+    '<p> Protein:' + 
+      results.labelNutrients.protein.value + 
+      '</p>' + 
+      '<p> Fat:' + 
+      results.labelNutrients.fat.value + 
+      '</p>' + 
+      '<p> Carbs:' + 
+      results.labelNutrients.carbohydrates.value + 
+      '</p>'
+    )
   }
-  //console.log(results.householdservingFullText);
-    $('.results').append(
-    '<p>Serving Info =' + servingsize + servingunit + '<br>'+ servingdescrip +' </p>')
+  catch(err) {
+    $('.results').append(err.message);
+  }
   })
+
 })
   
 </script>
