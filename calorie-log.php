@@ -32,9 +32,9 @@ if ($conn->query($sqlcrdb) === TRUE) {
 }
 
 
-$sqlcrtb = "CREATE TABLE weight (
+$sqlcrtb = "CREATE TABLE calorie (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
-weight INT(3) NOT NULL,
+calorie INT(5) NOT NULL,
 reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 )";
 
@@ -47,12 +47,12 @@ if ($conn->query($sqlcrtb) === TRUE) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field
-  if (empty($_REQUEST['bw'])) {
-    $bwerror2 = "bodyweight in lbs is required!";
+  if (empty($_REQUEST['calorie'])) {
+    $calerror2 = "calories eaten is required!";
   } else {
-    $bw2 = test_input($_REQUEST['bw']);
+    $calorie = test_input($_REQUEST['calorie']);
     // insert staement if the bodyweight is present
-    $sqlinsert = "INSERT INTO weight (weight) VALUES ($bw2)";
+    $sqlinsert = "INSERT INTO calorie (calorie) VALUES ($calorie)";
     if ($conn->query($sqlinsert) === TRUE) {
 //    echo "record created successfully";
     } else {
@@ -81,11 +81,11 @@ $conn->close();
     <div class="col-xs-10 text-center">
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
   <fieldset>
-    <legend>Body Weight (lbs):</legend>
-  <div class="col-xs-12 p-2">Body Weight (lbs): 
-    <input type="number" name="bw">
+    <legend>Calories:</legend>
+  <div class="col-xs-12 p-2">Calories Consumed: 
+    <input type="number" name="calorie">
       <input type="submit" value="Submit">
-    <span class="error">* <?php echo $bwerror2; ?></span>
+    <span class="error">* <?php echo $calerror2; ?></span>
   </div>
 </fieldset>
 </form>
@@ -107,7 +107,7 @@ if ($conn->connect_error) {
 //  echo "Connected successfully";
 }
 
-$sqlselect = "SELECT * FROM weight";
+$sqlselect = "SELECT * FROM calorie";
 
 $result = $conn->query($sqlselect);
 
@@ -117,15 +117,15 @@ if ($result->num_rows > 0) {
     $realid = $row["id"];
     echo "<div class='results' id='$realid' style='display:flex;flex-wrap:wrap;'>" . 
     "<p class='entry'>" . 
+    "date: " . 
     $row["reg_date"] . 
-    " - Weight: " . 
-    $row["weight"] . 
+    " - Calories: " . 
+    $row["calorie"] . 
     "</p>" . 
     '<button style="padding-left: 5px;
     padding-bottom: 16px;"" type="button" class="close" aria-label="Close">
   <span aria-hidden="true">&times;</span>
 </button>' . 
-
 "</div>";
     }
 } else {
@@ -157,7 +157,7 @@ $('.close').click(function() {
       console.log('ready state is not ready for some reason??');
     }}
 */
-  xmlhttp.open("POST","delete-weight.php?q="+id,true);
+  xmlhttp.open("POST","delete-calorie.php?q="+id,true);
   xmlhttp.send();
   parent[0].remove();
 });

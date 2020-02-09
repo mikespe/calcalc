@@ -52,7 +52,7 @@
   //console.log('i was submitted')
   $.get(querystr, function(results) {
     $('.results').empty();
-  for (i=0; i < 10; i++) {
+  for (i=0; i < 20; i++) {
     let fdcid = results.foods[i].fdcId;
     $('.results').append('<p id='+'"'+fdcid+'"'+ ' class=fooditem' +'>' + results.foods[i].allHighlightFields + '</p>');
   }
@@ -94,7 +94,7 @@ try {
     )
   }
   catch(err) {
-    $('.results').append(err.message + '<br>' + '<br>' + 'This means this entry isnt good/reliable. please choose another entry! thanks');
+    $('.results').append(err.message + '<br>' + '<br>' +'<h3>' + 'This means this entry isnt good/reliable. please choose another entry!' + '</h3>');
   }
   })
 
