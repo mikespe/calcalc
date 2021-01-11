@@ -76,6 +76,7 @@ $conn->close();
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
 <body>
+  <?php include 'header.php'; ?>
   <div class="container">
   <div class="row text-center m-4">
     <div class="col-xs-10 text-center">
@@ -92,7 +93,6 @@ $conn->close();
 <hr>
 <div class="resultscontainer">
 <?php
-// Create connection
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -100,14 +100,13 @@ $dbname = "weightlog";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } else {
 //  echo "Connected successfully";
 }
 
-$sqlselect = "SELECT * FROM calorie";
+$sqlselect = "SELECT * FROM calorie ORDER BY reg_date DESC";
 
 $result = $conn->query($sqlselect);
 

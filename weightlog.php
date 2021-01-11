@@ -68,14 +68,33 @@ $conn->close();
 <!DOCTYPE html>
 <html>
 <head>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
   <meta charset="utf-8">
   <title></title>
   <meta name="author" content="">
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<style>
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+</style>
 </head>
 <body>
+    <?php include 'header.php'; ?>
   <div class="container">
   <div class="row text-center m-4">
     <div class="col-xs-10 text-center">
@@ -107,7 +126,7 @@ if ($conn->connect_error) {
 //  echo "Connected successfully";
 }
 
-$sqlselect = "SELECT * FROM weight";
+$sqlselect = "SELECT * FROM weight ORDER BY reg_date DESC";
 
 $result = $conn->query($sqlselect);
 
@@ -135,6 +154,7 @@ $conn->close();
 
 ?>  
 </div>
+<div id="my_dataviz"></div>
 </div>
 </div>
 </div>
@@ -162,5 +182,82 @@ $('.close').click(function() {
   parent[0].remove();
 });
 </script>
+<script>
+var json = []
+let entryelements = $('.entry')
+$.each(entryelements, function(index, value) {
+obj = {datee: value.textContent.slice(0,19), weight: parseInt(value.textContent.slice(30,))}
+json.push(obj)
+})
+var data = json
+
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 270 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+
+// Set the ranges
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(5);
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(5);
+
+// Define the line
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.datee); })
+    .y(function(d) { return y(d.weight); });
+    
+// Adds the svg canvas
+var svg = d3.select("#my_dataviz")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+              "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+
+//d3.csv("data.csv", function(error, data) {
+   data.forEach(function(d) {
+        d.datee = parseDate(d.datee);
+        d.weight = d.weight;
+    });
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.datee; }));
+    y.domain([170, d3.max(data, function(d) { return d.weight; })]);
+
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+        console.log(valueline(data));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+//});
+
+
+  </script>
+
 </body>
 </html>
