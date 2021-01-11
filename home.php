@@ -16,10 +16,11 @@
   <?php include 'header.php'; ?>
     <div class="container">
   <div class="row text-center m-4">
-    <div class="col-xs-10 text-center">
-	    Hello and welcome to the weightloss homepage!
+    <div class="col-12 text-center">
+	    <p>Hello and welcome to the weightloss homepage!</p>
 	    <div>
 		    </div>
 		    </div>
   </body>
   </html>
+  
