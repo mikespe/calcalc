@@ -74,6 +74,13 @@ $conn->close();
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<style>
+path.line	{
+    fill: none;
+    stroke: #000;
+}
+</style>
 </head>
 <body>
   <?php include 'header.php'; ?>
@@ -134,6 +141,7 @@ $conn->close();
 
 ?>  
 </div>
+<div id="my_dataviz"></div>
 </div>
 </div>
 </div>
@@ -161,5 +169,83 @@ $('.close').click(function() {
   parent[0].remove();
 });
 </script>
+<script>
+var json = []
+let entryelements = $('.entry')
+$.each(entryelements, function(index, value) {
+obj = {datee: value.textContent.slice(6,25), weight: parseInt(value.textContent.slice(-4,).trim())}
+json.push(obj)
+})
+var data = json
+
+
+// Set the dimensions of the canvas / graph
+var margin = {top: 30, right: 20, bottom: 30, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+// Parse the date / time
+var parseDate = d3.time.format("%Y-%m-%d %H:%M:%S").parse;
+
+// Set the ranges
+var x = d3.time.scale().range([0, width]);
+var y = d3.scale.linear().range([height, 0]);
+
+// Define the axes
+var xAxis = d3.svg.axis().scale(x)
+    .orient("bottom").ticks(7);
+
+var yAxis = d3.svg.axis().scale(y)
+    .orient("left").ticks(7);
+
+// Define the line
+var valueline = d3.svg.line()
+    .x(function(d) { return x(d.datee); })
+    .y(function(d) { return y(d.weight); });
+    
+// Adds the svg canvas
+var svg = d3.select("#my_dataviz")
+    .append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+        .attr("transform", 
+              "translate(" + margin.left + "," + margin.top + ")");
+
+// Get the data
+
+//d3.csv("data.csv", function(error, data) {
+   data.forEach(function(d) {
+        d.datee = parseDate(d.datee);
+        d.weight = d.weight;
+    });
+
+    // Scale the range of the data
+    x.domain(d3.extent(data, function(d) { return d.datee; }));
+    y.domain([300, d3.max(data, function(d) { return d.weight; })]);
+
+    // Add the valueline path.
+    svg.append("path")
+        .attr("class", "line")
+        .attr("d", valueline(data));
+        console.log(valueline(data));
+
+    // Add the X Axis
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .call(xAxis);
+
+    // Add the Y Axis
+    svg.append("g")
+        .attr("class", "y axis")
+        .call(yAxis);
+
+//});
+
+
+  </script>
+
+
 </body>
 </html>
