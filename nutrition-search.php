@@ -67,36 +67,61 @@ $('.results').on('click', '.fooditem' , function() {
   var detailsquery = 'https://api.nal.usda.gov/fdc/v1/'+selectedid+'?api_key=ffm9P5caEuLE7aUT7l2OttpQ68hCEId9rS6TT08H';
 
   $.get(detailsquery, function(results) {
-  console.log(results);
   $('.results').empty();
-  let servingsize = results.servingSize;
-  let servingunit = results.servingSizeUnit;
-  let servingdescrip = results.householdServingFullText;
-try {
-    $('.results').append(
-      '<p> Calories:' + 
-      results.labelNutrients.calories.value + 
-      '----' + 
-      'Serving = ' + 
-    servingsize + servingunit +
+  let calories = 'null';
+  let description = 'null';
+  let servingsize = 'null';
+  let servingsizeunit = 'null';
+  let fat = 'null';
+  let protein = 'null';
+  let carbs = 'null';
+  if (results.hasOwnProperty('labelNutrients') === true) {
+	  console.log('food label');
+	  console.log(results)
+	  description = results.description;
+	  servingsize = results.servingSize;
+	  servingsizeunit = results.servingSizeUnit;
+	  calories = results.labelNutrients.calories.value;
+	  fat = results.labelNutrients.fat.value;
+	  protein = results.labelNutrients.protein.value;
+	  carbs = results.labelNutrients.carbohydrates.value;
+  } else {
+	  console.log('food nutrients');
+	  description = results.description;
+	  servingsize = results.servingSize;
+	  if (servingsize == undefined) {
+		  servingsize = 'not sure';
+	  }
+	  servingsizeunit = results.servingSizeUnit;
+	  if (servingsizeunit == undefined) {
+		  servingsizeunit = 'not sure';
+	  }
+	  calories = results.foodNutrients[2].amount.toString();
+	  fat = results.foodNutrients[4].amount.toString();
+	  protein = results.foodNutrients[3].amount.toString();
+	  carbs = results.foodNutrients[6].amount.toString();
+	  console.log(results)
+  }
+      $('.results').append(
+      '<p> <strong>Calories:</strong>' + 
+      calories + '<br>' +
+      '<strong>Serving</strong> = ' + 
+    servingsize + ' ' + servingsizeunit + 
     '<br>' +
-    'serving description:'+
-    servingdescrip +
+    '<strong>serving description:</strong><br> '+
+    description +
     ' </p>'+ 
-    '<p> Protein: ' + 
-      results.labelNutrients.protein.value + 
+    '<p> <strong>Protein:</strong> ' + 
+      protein + 
       '</p>' + 
-      '<p> Fat: ' + 
-      results.labelNutrients.fat.value + 
+      '<p> <strong>Fat: </strong>' + 
+      fat + 
       '</p>' + 
-      '<p> Carbs: ' + 
-      results.labelNutrients.carbohydrates.value + 
+      '<p><strong> Carbs: </strong>' + 
+      carbs + 
       '</p>'
     )
-  }
-  catch(err) {
-    $('.results').append(err.message + '<br>' + '<br>' +'<h3>' + 'This means this entry isnt good/reliable. please choose another entry!' + '</h3>');
-  }
+
   })
 
 })

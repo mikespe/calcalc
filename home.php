@@ -2,9 +2,9 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title></title>
-  <meta name="author" content="">
-  <meta name="description" content="">
+  <title>Weightloss website</title>
+  <meta name="author" content="speranza">
+  <meta name="description" content="A Weightloss website explaining the how and providing basic tools to help">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
@@ -17,7 +17,7 @@
     <div class="container">
   <div class="row text-center m-4">
     <div class="col-12 text-center">
-	        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our Weight Loss website.</h1>
+	        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to the Weight Loss website.</h1>
 	       </div>
 </div>
 		 </div>

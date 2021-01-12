@@ -8,11 +8,13 @@ function test_input($data) {
 ?>
 
 <?php
-
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "weightlog";
+
+$usern = htmlspecialchars($_SESSION["username"]);
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -35,7 +37,8 @@ if ($conn->query($sqlcrdb) === TRUE) {
 $sqlcrtb = "CREATE TABLE weight (
 id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
 weight INT(3) NOT NULL,
-reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+username varchar(255) NOT NULL
 )";
 
 if ($conn->query($sqlcrtb) === TRUE) {
@@ -52,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $bw2 = test_input($_REQUEST['bw']);
     // insert staement if the bodyweight is present
-    $sqlinsert = "INSERT INTO weight (weight) VALUES ($bw2)";
+    $sqlinsert = "INSERT INTO weight (weight, username) VALUES ('$bw2', '$usern')";
     if ($conn->query($sqlinsert) === TRUE) {
 //    echo "record created successfully";
     } else {
@@ -126,7 +129,7 @@ if ($conn->connect_error) {
 //  echo "Connected successfully";
 }
 
-$sqlselect = "SELECT * FROM weight ORDER BY reg_date DESC";
+$sqlselect = "SELECT * FROM weight WHERE username='$usern' ORDER BY reg_date DESC";
 
 $result = $conn->query($sqlselect);
 

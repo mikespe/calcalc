@@ -8,11 +8,13 @@ function test_input($data) {
 ?>
 
 <?php
-
+session_start();
 $servername = "localhost";
 $username = "root";
 $password = "root";
 $dbname = "weightlog";
+
+$usern = htmlspecialchars($_SESSION["username"]);
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -33,9 +35,10 @@ if ($conn->query($sqlcrdb) === TRUE) {
 
 
 $sqlcrtb = "CREATE TABLE calorie (
-id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
+id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 calorie INT(5) NOT NULL,
-reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+reg_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+username varchar(255) NOT NULL
 )";
 
 if ($conn->query($sqlcrtb) === TRUE) {
@@ -52,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   } else {
     $calorie = test_input($_REQUEST['calorie']);
     // insert staement if the bodyweight is present
-    $sqlinsert = "INSERT INTO calorie (calorie) VALUES ($calorie)";
+    $sqlinsert = "INSERT INTO calorie (calorie, username) VALUES ('$calorie', '$usern')";
     if ($conn->query($sqlinsert) === TRUE) {
 //    echo "record created successfully";
     } else {
@@ -113,7 +116,7 @@ if ($conn->connect_error) {
 //  echo "Connected successfully";
 }
 
-$sqlselect = "SELECT * FROM calorie ORDER BY reg_date DESC";
+$sqlselect = "SELECT * FROM calorie WHERE username='$usern' ORDER BY reg_date DESC";
 
 $result = $conn->query($sqlselect);
 
