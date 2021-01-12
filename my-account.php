@@ -17,10 +17,14 @@
     <div class="container">
   <div class="row text-center m-4">
     <div class="col-12 text-center">
-	        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to our Weight Loss website.</h1>
-	       </div>
-</div>
-		 </div>
+	        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?>,<br></b>Manage your account here.</h1>
+	            <p>
+        <a href="reset-password.php" class="btn btn-warning">Reset Your Password</a>
+        <a href="logout.php" class="btn btn-danger">Sign Out of Your Account</a>
+    </p>	   
+	        </div>
+ </div>
+		    </div>
   </body>
   </html>
   
