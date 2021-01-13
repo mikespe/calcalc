@@ -19,8 +19,24 @@
     <div class="col-12 text-center">
 	        <h1>Hi, <b><?php echo htmlspecialchars($_SESSION["username"]); ?></b>. Welcome to the Weight Loss website.</h1>
 	       </div>
+	<div class="col-12 text-left">
+		<p>Weightloss is a tough journey with a lot of incentivized players fighting for your attention and $$$. This website is meant to provide useful unopinionated tools like the <a href="calcalc.php">calorie calculator</a>, <a href="nutrition-search.php">nutrition search</a>, <a href="calorie-log.php">calorie</a> and <a href="weightlog.php">weight log</a> for your journey and to provide high quality nutrition/exercise information to whomever needs it</p>
+		<h3>Summary of what is important:</h3>
+		<p>Calories in vs Calories out is the most important thing to weight loss</p>
+
+		<p>You burn calories everyday, eat less than you take in to lose, reverse to gain</p>
+
+		<p>Roughly 3500 calories = 1 lb. Aim for 1-1.5% of bodyweight lost per week until your at your goal, then eat at maintenance and enjoy</p>
+				<p>Lift weights or provide resistance to muscle to signal to the body to not eat the muscle and eat to the fat instead</p>
+		<h3>Useful Links & Resources</h3>
+		<ul>
+		<li>Nutrition and Bodybuilding science <a href="https://bodyrecomposition.com/" target="new">https://bodyrecomposition.com/</a></li>
+		<li>Practical Diet and exercise information <a href="https://leangains.com/" target="new">https://leangains.com/</a></li>
+		<li>Nutrition and fasting info <a href="https://bradpilon.com/" target="new">https://bradpilon.com/</a></li>
+		<li>Strength and Powerlifting <a href="https://startingstrength.com/" target="new">https://startingstrength.com/</a></li>
+		</ul>
+		</div>
 </div>
 		 </div>
   </body>
   </html>
-  
