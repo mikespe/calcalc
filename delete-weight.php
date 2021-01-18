@@ -1,10 +1,6 @@
 <?php
+include '../app/config.php';
 $q = $_REQUEST["q"];
-
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "weightlog";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

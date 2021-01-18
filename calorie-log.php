@@ -1,4 +1,5 @@
 <?php
+include '../app/config.php';
 function test_input($data) {
   $data = trim($data);
   $data = stripslashes($data);
@@ -8,11 +9,6 @@ function test_input($data) {
 ?>
 
 <?php
-session_start();
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "weightlog";
 
 $usern = htmlspecialchars($_SESSION["username"]);
 
@@ -26,7 +22,7 @@ if ($conn->connect_error) {
 //  echo "connected successfully";
 }
 
-$sqlcrdb = "CREATE DATABASE weightlog";
+$sqlcrdb = "CREATE DATABASE weighool_weightlog";
 if ($conn->query($sqlcrdb) === TRUE) {
     echo "Database created successfully";
 } else {
@@ -64,7 +60,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   }
 }
-
 $conn->close();
 ?>
 
@@ -77,36 +72,31 @@ $conn->close();
   <meta name="description" content="">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-	  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
-<style>
-path.line	{
-    fill: none;
-    stroke: #000;
-}
-</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+
 </head>
 <body>
   <?php include 'header.php'; ?>
   <div class="container">
-  <div class="row text-center m-4">
-    <div class="col-xs-10 text-center">
+  <div class="row text-center">
+    <div class="col-12 text-center">
 <form method="post" action="<?php echo $_SERVER['PHP_SELF'];?>">
   <fieldset>
     <legend>Calories:</legend>
-  <div class="col-xs-12 p-2">Calories Consumed: 
+  <div class="col-12">Calories Consumed: 
     <input type="number" name="calorie">
       <input type="submit" value="Submit">
     <span class="error">* <?php echo $calerror2; ?></span>
   </div>
 </fieldset>
 </form>
-<hr>
-<div class="resultscontainer">
+</div>
+</div>
+<div class="row" style="margin-top:30px">
+<div class="col-xs-12 col-md-6" id="my_dataviz"></div>
+<div class="resultscontainer col-xs-12 col-md-6">
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "root";
-$dbname = "weightlog";
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -124,7 +114,7 @@ if ($result->num_rows > 0) {
     // output data of each row
     while($row = $result->fetch_assoc()) {
     $realid = $row["id"];
-    echo "<div class='results' id='$realid' style='display:flex;flex-wrap:wrap;'>" . 
+    echo "<div class='results' id='$realid' style='display:flex;flex-wrap:wrap;justify-content: center;'>" . 
     "<p class='entry'>" . 
     "date: " . 
     $row["reg_date"] . 
@@ -143,8 +133,6 @@ if ($result->num_rows > 0) {
 $conn->close();
 
 ?>  
-</div>
-<div id="my_dataviz"></div>
 </div>
 </div>
 </div>
@@ -167,7 +155,7 @@ $('.close').click(function() {
       console.log('ready state is not ready for some reason??');
     }}
 */
-  xmlhttp.open("POST","delete-calorie.php?q="+id,true);
+  xmlhttp.open("POST","/delete-calorie.php?q="+id,true);
   xmlhttp.send();
   parent[0].remove();
 });
@@ -183,7 +171,7 @@ var data = json
 
 
 // Set the dimensions of the canvas / graph
-var margin = {top: 30, right: 20, bottom: 30, left: 50},
+var margin = {top: 30, right: 20, bottom: 30, left: 70},
     width = 500 - margin.left - margin.right,
     height = 400 - margin.top - margin.bottom;
 
@@ -225,7 +213,7 @@ var svg = d3.select("#my_dataviz")
 
     // Scale the range of the data
     x.domain(d3.extent(data, function(d) { return d.datee; }));
-    y.domain([300, d3.max(data, function(d) { return d.weight; })]);
+    y.domain([0, d3.max(data, function(d) { return d.weight; })]);
 
     // Add the valueline path.
     svg.append("path")

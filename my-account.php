@@ -1,3 +1,7 @@
+<?php
+// Initialize the session
+require_once("../app/config.php");
+?>
 <!DOCTYPE html>
 <html>
 <head>

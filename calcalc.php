@@ -1,5 +1,5 @@
 <?php
-
+include '../app/config.php';
 function test_input($data) {
   $data = trim($data);
   $data = stripslashes($data);
@@ -26,10 +26,9 @@ function femalecal($bw, $inches, $yrs, $activity) {
 }
 ?>
 
-<?php 
+<?php
 $bwerror = $incherror = $yrserror = $activityerror = $sexerror = "";
 ?>
-
 <?php
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // collect value of input field

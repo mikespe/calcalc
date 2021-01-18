@@ -1,0 +1,31 @@
+@media only screen and (max-width: 600px) {
+	.entry {
+		font-size:12px;
+	}
+	strong {
+		font-size:14px;
+	}
+	#my_dataviz {
+		overflow-x:auto;
+	}
+	input{margin:10px;}
+}
+
+path { 
+    stroke: steelblue;
+    stroke-width: 2;
+    fill: none;
+}
+
+.axis path,
+.axis line {
+    fill: none;
+    stroke: grey;
+    stroke-width: 1;
+    shape-rendering: crispEdges;
+}
+
+#my_dataviz {
+	margin-top:30px;
+	margin-bottom:50px;
+}
